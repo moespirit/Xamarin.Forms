@@ -600,8 +600,10 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 #endif
 
 			Current = page;
-
-			((Platform)Element.Platform).NavAnimationInProgress = true;
+			if (Element.Platform.GetType() == typeof(AppCompat.Platform))
+				((Platform)Element.Platform).NavAnimationInProgress = true;
+			else
+				((Android.Platform)Element.Platform).NavAnimationInProgress = true;
 			FragmentTransaction transaction = FragmentManager.BeginTransaction();
 
 			if (animated)
@@ -689,7 +691,10 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 			}
 
 			Context.HideKeyboard(this);
-			((Platform)Element.Platform).NavAnimationInProgress = false;
+			if (Element.Platform.GetType() == typeof(AppCompat.Platform))
+				((Platform)Element.Platform).NavAnimationInProgress = false;
+			else
+				((Android.Platform)Element.Platform).NavAnimationInProgress = false;
 
 			// TransitionDuration is how long the built-in animations are, and they are "reversible" in the sense that starting another one slightly before it's done is fine
 
